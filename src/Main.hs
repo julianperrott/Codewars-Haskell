@@ -1,4 +1,3 @@
-import Test.Hspec
-import CircleTest
+import SequenceSumTest
 
-main = testCircle  
+main = testSequenceSum  
