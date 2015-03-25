@@ -1,3 +1,3 @@
-import SequenceSumTest
+import Maskify
 
-main = testSequenceSum  
+main = testMaskify  
