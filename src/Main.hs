@@ -1,3 +1,3 @@
-import Maskify
+import ListOps
 
-main = testMaskify  
+main = testListOps  
