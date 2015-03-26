@@ -16,6 +16,16 @@ maskifyV2 str
     | (length str) < 5 = str
     | otherwise = ['#'] ++ maskifyV2 (tail str)
 
+
+-- replicate - replicate n x is a list of length n with x the value of every element. It is an instance of the more general Data.List.genericReplicate, in which n may be of any ...
+--lenghth - O(n) Returns the number of characters in a Text. Subject to fusion.
+-- tail - 
+-- reverse
+-- tak
+
+---------------
+-- Tests
+---------------
 testMaskify = hspec $ do
   describe "maskify" $ do
     it "should mask the credit card"    $ maskify "4556364607935616" `shouldBe` "############5616"

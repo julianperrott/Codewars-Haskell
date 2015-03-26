@@ -6,6 +6,13 @@ circleArea x
    | x <= 0 = Nothing
    | otherwise = Just (pi * x * x) 
 
+
+-- Just - Given a type t, a value of Just t is an existing value of type t, where Nothing represents a failure to reach a value, or a case where having a value would be meaningless.
+
+---------------
+-- Tests
+---------------
+
 testCircle = hspec $ do
   describe "circle" $ do
     it "should work for some simple examples" $ do

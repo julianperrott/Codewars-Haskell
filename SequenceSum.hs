@@ -9,6 +9,13 @@ sumOfN n
     | n < 0 = map negate (sumOfN (abs(n)))
     | otherwise = map sumIt [0..n]
 
+-- [negate is the function applied by Haskell's only prefix operator, minus; we can't call it (-), because that is the subtraction function, so this name is provided instead. 
+-- For example, -x*y is equivalent to negate (x*y). (Prefix minus has the same syntactic precedence as infix minus, which, of course, is lower than that of multiplication.)]
+
+---------------
+-- Tests
+---------------
+
 testSequenceSum = hspec $ do
   describe "sumOfN" $ do
     it "should work for some examples" $ do
