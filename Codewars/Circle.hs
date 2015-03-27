@@ -1,4 +1,4 @@
-module Circle where
+module Codewars.Circle where
 import Test.Hspec
 
 circleArea :: Double -> Maybe Double

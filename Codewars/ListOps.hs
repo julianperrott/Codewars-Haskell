@@ -1,4 +1,4 @@
-module ListOps where
+module Codewars.ListOps where
 import Test.Hspec
 import Test.QuickCheck
 import Data.List
@@ -28,10 +28,10 @@ last xs = xs !! ((length xs)-1)
 
 testListOps = hspec $ do
     it "Example tests" $ do
-      ListOps.head [1,5] `shouldBe` 1
-      ListOps.head [3,2,4,5,5] `shouldBe` 3
-      ListOps.tail [3,2,4,5,5] `shouldBe` [2,4,5,5]
-      ListOps.tail [1] `shouldBe` []
-      ListOps.init [1,5,7,9] `shouldBe` [1,5,7]
-      ListOps.last [1,5] `shouldBe` 5
-      ListOps.last [1,5,78] `shouldBe` 78
+      Codewars.ListOps.head [1,5] `shouldBe` 1
+      Codewars.ListOps.head [3,2,4,5,5] `shouldBe` 3
+      Codewars.ListOps.tail [3,2,4,5,5] `shouldBe` [2,4,5,5]
+      Codewars.ListOps.tail [1] `shouldBe` []
+      Codewars.ListOps.init [1,5,7,9] `shouldBe` [1,5,7]
+      Codewars.ListOps.last [1,5] `shouldBe` 5
+      Codewars.ListOps.last [1,5,78] `shouldBe` 78

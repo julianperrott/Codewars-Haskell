@@ -1,4 +1,4 @@
-module SequenceSum where
+module Codewars.SequenceSum where
 import Test.Hspec
 
 sumIt :: Int -> Int

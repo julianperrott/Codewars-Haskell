@@ -1,4 +1,4 @@
-module Maskify where
+module Codewars.Maskify where
 import Data.List
 import Test.Hspec
 import Test.QuickCheck

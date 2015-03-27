@@ -1,3 +1,3 @@
-import ListOps
+import Codewars.Weights
 
-main = testListOps  
+main=test
