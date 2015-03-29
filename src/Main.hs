@@ -1,3 +1,3 @@
-import Codewars.KeypadEntry
+import Codewars.UniquePairs
 
 main=test
