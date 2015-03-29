@@ -1,3 +1,3 @@
-import Codewars.Weights
+import Codewars.KeypadEntry
 
 main=test

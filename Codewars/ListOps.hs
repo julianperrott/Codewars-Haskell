@@ -26,6 +26,10 @@ init xs = take ((length xs)-1) xs
 last :: [a] -> a
 last xs = xs !! ((length xs)-1)
 
+---------------
+-- Tests
+---------------
+
 testListOps = hspec $ do
     it "Example tests" $ do
       Codewars.ListOps.head [1,5] `shouldBe` 1
