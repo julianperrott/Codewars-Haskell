@@ -1,3 +1,3 @@
-import Codewars.UniquePairs
+import Codewars.Capitals
 
 main=test
