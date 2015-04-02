@@ -1,3 +1,3 @@
-import Codewars.Capitals
+import Codewars.PowerOfFour
 
 main=test
