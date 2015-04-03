@@ -1,0 +1,62 @@
+module Codewars.CycleListOfValues where
+import Test.Hspec
+import Test.QuickCheck
+import Data.List
+import Data.Maybe
+
+data Direction = L | R deriving (Show)
+
+cycleList :: (Eq a) => Direction -> [a] -> a -> Maybe a
+cycleList dir valueList value 
+    | length valueIndicies == 0 = Nothing -- value not found
+    | show dir == "L" = leftValue
+    | otherwise = rightValue
+    where 
+          valueIndicies = elemIndices value valueList
+          valueIndex = head valueIndicies
+          getValue =  \x -> Just $ valueList !! x
+          leftValue = if valueIndex == 0 then getValue (length valueList) else getValue (valueIndex-1)
+          rightValue = if valueIndex == length valueList then getValue 0 else getValue 0
+
+
+---------------
+-- Tests
+---------------
+
+main = hspec $ do
+  it "gets the next value to the left" $ do
+    cycleList L [1,2,3] 2 `shouldBe` Just 1
+    
+    
+  it "returns Nothing if value is not in the list" $ do
+    cycleList L [1,2,3] 4 `shouldBe` Nothing
+
+{-
+http://www.codewars.com/kata/5456812629ccbf311b000078/train/haskell
+[Prologue]
+
+You're part of a team porting MS Paint into the browser and currently working on a new UI component that allows user to control the canvas zoom level.
+
+According to the wireframes delivered to you in PowerPoint format the user should be able to cycle through specified zoom levels by clicking a button in the UI repeatedly. The reverse direction should work with shift key held.
+
+A new function is needed to support this behavior, so you alt-tab to Visual Studio and get to work.
+
+[Instructions]
+
+Implement a function which when given the arguments
+
+Direction to which to cycle the current value
+List of values
+Current value
+returns the value next to current value in the specified direction.
+
+The function should pick the next value from the other side of the list in case there are no values in the given direction.
+
+[Examples]
+
+cycleList R [1,2,3] 1  -- => Just 2
+cycleList L [1,2,3] 1  -- => Just 3
+cycleList R [1,2,3] 0  -- => Nothing
+cycleList L ["foo", "bar", "xyz"] "bar"  -- => Just "foo"
+
+-}
