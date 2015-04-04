@@ -1,3 +1,3 @@
-import Codewars.PowerOfFour
+import Codewars.Commas
 
 main=test
