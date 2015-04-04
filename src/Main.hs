@@ -1,3 +1,3 @@
-import Codewars.Commas
+import Codewars.SplitInt
 
 main=test
