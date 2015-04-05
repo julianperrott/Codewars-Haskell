@@ -1,3 +1,3 @@
-import Codewars.SplitInt
+import Codewars.IsPrime
 
 main=test
