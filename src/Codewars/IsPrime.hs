@@ -14,9 +14,9 @@ isPrime x
     | n < 4 = n >1
     | n `rem` 2 == 0 = False
     | n `rem` 3 == 0 = False
-    | otherwise = [] == (
-            filter(\y -> n `mod` y == 0 || n `mod` (y+2) == 0 ) 
-            $ takeWhile (\y -> y*y <= n) [5,11..]
+    | otherwise = [] == ( -- no results expected
+            filter(\y -> n `mod` y == 0 || n `mod` (y+2) == 0 ) -- check mod values 
+            $ takeWhile (\y -> y*y <= n) [5,11..] -- create list of 5+6+6+6 to y^2 <= n
         )
     where n = abs x
 

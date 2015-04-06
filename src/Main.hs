@@ -1,3 +1,3 @@
-import Codewars.IsPrime
+import Codewars.SquareSum
 
 main=test
