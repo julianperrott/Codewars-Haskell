@@ -1,3 +1,3 @@
-import Codewars.WindInfo
+import Codewars.Duplicates
 
 main=test
