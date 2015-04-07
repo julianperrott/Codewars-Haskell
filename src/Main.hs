@@ -1,3 +1,3 @@
-import Codewars.SquareSum
+import Codewars.WindInfo
 
 main=test
