@@ -1,3 +1,3 @@
-import Codewars.Duplicates
+import Codewars.PrimeTime
 
 main=test

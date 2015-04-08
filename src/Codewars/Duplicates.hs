@@ -2,30 +2,47 @@ module Codewars.Duplicates where
 import Data.List (nub)
 import Test.Hspec
 import Test.QuickCheck
+import Data.Char
+import Data.List
 
 duplicateCount :: String -> Int
-duplicateCount n = 2
+duplicateCount [] = 0
+duplicateCount (x:xs)
+    | length xs == length filtered = duplicateCount filtered
+    | otherwise = 1 + duplicateCount filtered
+    where
+        filtered = filter (\y -> elem (toLower y) [toLower x] == False) xs
 
-count :: Char -> [Char] -> Int
-count ch xs = length $ filter (notElem ch) xs
 
---filter (>5) [1,2,3,4,5,6,7,8]
+-- example of pattern method in where
+duplicateCount2 :: String -> Int
+duplicateCount2 xs = dupeCount (sort  $ map toLower xs) 0
+  where
+    dupeCount [] n = n
+    dupeCount (x:[]) n = n
+    dupeCount (x:y:xs) n = if x == y
+                           then dupeCount (dropWhile (==x) xs) (n+1)
+                           else dupeCount (y:xs) n
 
---filter (>5) [1,2,3,4,5,6,7,8]
 
 
 test = hspec $ do
   describe "duplicateCount" $ do
-    it "count" $ do
-       count 'a' "abcdeaaa"                     =?= 4
-    it "should work for some small tests" $ do
+    it "should work for some small tests empty" $ do
       duplicateCount ""                         =?= 0
+    it "should work for some small tests abcde" $ do
       duplicateCount "abcde"                    =?= 0
+    it "should work for some small tests aabbcde" $ do
       duplicateCount "aabbcde"                  =?= 2
+    it "should work for some small tests aaBbcde" $ do
       duplicateCount "aaBbcde"                  =?= 2
+    it "should work for some small tests Indivisibility" $ do
       duplicateCount "Indivisibility"           =?= 1
+    it "should work for some small testsIndivisibilities" $ do
       duplicateCount "Indivisibilities"         =?= 2
+    it "should work for some small tests a-z" $ do
       duplicateCount ['a'..'z']                 =?= 0
+    it "should work for some small tests A-Z" $ do
       duplicateCount (['a'..'z'] ++ ['A'..'Z']) =?= 26
     it "should work for some random lists" $ do
       property $ forAll (listOf $ elements ['a'..'z']) $ \x ->
