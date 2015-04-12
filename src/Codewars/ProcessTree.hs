@@ -16,4 +16,4 @@ extractTree ar pid = Process pid [ extractTree ar (fst y) | y <- ar, snd y == pi
 test = hspec $
   describe "makeTree" $ do
     it "should work for the example" $ 
-      show (makeTree [(1, -1), (219, 214), (214, 1), (124,1) ]) `shouldBe` "Process 1 [Process 124 [], Process 214 [Process 219 []]]"
+      show (makeTree [(1, -1), (219, 214), (214, 1), (124,1) ]) `shouldBe` "Process 1 [Process 214 [Process 219 []],Process 124 []]"
