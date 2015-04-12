@@ -1,3 +1,3 @@
-import Codewars.MaxSequence
+import Codewars.ProcessTree
 
 main=test
