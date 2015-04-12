@@ -1,3 +1,3 @@
-import Codewars.PrimeTime
+import Codewars.MaxSequence
 
 main=test
