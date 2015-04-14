@@ -1,3 +1,3 @@
-import Codewars.IPv4
+import Codewars.AwesomeNum
 
 main=test
