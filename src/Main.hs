@@ -1,3 +1,3 @@
-import Codewars.AwesomeNum
+import Codewars.BalancedParens
 
 main=test
