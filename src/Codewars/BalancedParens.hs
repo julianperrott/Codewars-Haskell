@@ -8,12 +8,15 @@ balancedParens n = balancedParenBuilder n ["("]
 balancedParenBuilder :: Int -> [String] -> [String]
 balancedParenBuilder n xs
     | n == 0 = [""]
-    | length xs == 0 = ["EEK"]
-    | length (xs !! 0) == (n*2) = xs -- params done
-    | otherwise = balancedParenBuilder n [ i ++ "(" | i <- xs, isValid n (i++"(")] ++ [ i ++ ")" | i <- xs, isValid n (i++")")]
+    | length (xs !! 0) == (n*2)-1 = map (++")") xs  -- params done
+    | otherwise = balancedParenBuilder n $ addOpen ++ addClose
+    where addOpen = [ i ++ "(" | i <- xs, isValid n (i ++ "(")]
+          addClose = [ i ++ ")" | i <- xs, isValid n (i ++ ")")]
 
 isValid :: Int -> String -> Bool
-isValid n str = True
+isValid n str = opCnt >= clCnt && opCnt <= n
+    where opCnt = length $ filter (=='(') str
+          clCnt = (length str) - opCnt
 
 
 test = hspec $ do
