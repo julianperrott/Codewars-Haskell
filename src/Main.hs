@@ -1,3 +1,3 @@
-import Codewars.Sudoku
+import Codewars.MoleculeToAtoms
 
 main=test
