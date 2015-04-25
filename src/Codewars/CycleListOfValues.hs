@@ -1,17 +1,17 @@
 module Codewars.CycleListOfValues where
-import Test.Hspec
-import Test.QuickCheck
-import Data.List
-import Data.Maybe
+import           Data.List
+import           Data.Maybe
+import           Test.Hspec
+import           Test.QuickCheck
 
 data Direction = L | R deriving (Show)
 
 cycleList :: (Eq a) => Direction -> [a] -> a -> Maybe a
-cycleList dir valueList value 
+cycleList dir valueList value
     | length valueIndicies == 0 = Nothing -- value not found
     | show dir == "L" = leftValue
     | otherwise = rightValue
-    where 
+    where
           valueIndicies = elemIndices value valueList
           valueIndex = head valueIndicies
           getValue =  \x -> Just $ valueList !! x
@@ -32,7 +32,7 @@ test = hspec $ do
   it "gets the next value to the right" $ do
     cycleList R [1,2,3] 3 `shouldBe` Just 1
     cycleList R [1,2,3] 2 `shouldBe` Just 3
-    cycleList R [1,2,3] 1 `shouldBe` Just 2    
+    cycleList R [1,2,3] 1 `shouldBe` Just 2
   it "returns Nothing if value is not in the list" $ do
     cycleList L [1,2,3] 4 `shouldBe` Nothing
 
