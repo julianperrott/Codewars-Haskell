@@ -1,3 +1,3 @@
-import Codewars.MoleculeToAtoms
+import Codewars.Mean
 
 main=test

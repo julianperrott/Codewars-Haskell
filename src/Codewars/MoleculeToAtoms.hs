@@ -11,13 +11,18 @@ import           Test.HUnit
 parseMolecule :: String -> Either String [(String,Int)]
 parseMolecule formula
     | extracted == [] = Left "Empty"
-    | fst finalItem == -1 = Right parse
+    | fst finalItem == -1 = Right (groupElements parse)
     | fst finalItem < -1 = Left (fst (snd finalItem))
     | otherwise = Left "Unknown"
     where
         extracted =  extract formula 0 ' '
-        parse = filter (\x -> snd x >0) $ map snd $ extracted
+        parse =  (filter (\x -> snd x >0) $ map snd $ extracted)
         finalItem = last extracted
+
+groupElements :: [(String,Int)] -> [(String,Int)]
+groupElements elementList = map countElements elements
+        where elements = nub $ map fst elementList
+              countElements el = (el, foldr (+) 0 $ map snd $ filter (\x -> el == fst x) elementList)
 
 
 extract :: String -> Int -> Char -> [(Int, (String,Int))] -- formula -> index -> endChar -> (index, elements)
@@ -45,7 +50,6 @@ extractSub formula index startChar endChar endChar2 = sub
           sub  = [(index+1,([startChar],0))] ++ subformulaMultiplied ++ extract formula (postsubdigitIndex) endChar2
           subformulaMultiplied = if length subformulaDigits == 0 then subformula else map (\x -> (fst x,(fst (snd x), (read subformulaDigits) * (snd (snd x)) ))) subformula
 
---sub  = [(index+1,([startChar],0))] ++ subformulaMultiplied ++ [(postsubdigitIndex,("Mult" ++ [endChar] ++ subformulaDigits ++ [endChar2], -1))] ++ extract formula (postsubdigitIndex) endChar2
 
 extractElement :: String -> Int -> (Int, (String,Int))
 extractElement formula index
@@ -71,24 +75,12 @@ startingDigits (x:xs)
     | otherwise = ""
 
 
-
---K4[ON(SO3)2]2
-
-{-
-K4 -> ["K",4]
-(
-        ON ["O",1] ["N",1]
-        (
-                S O3 ["S",1],["O",3]
-        ) 2 -> ["S",2],["O",6]
-)2 -> ["O",2] ["N",2] + ["S",4],["O",12]
-
-["K",4] ["O",14] ["N",2] ["S",4]
--}
-
-
 test = hspec $ do
 
+  describe "groupElements" $ do
+       it "G1" $ do groupElements  [("K",4),("O",2),("N",2),("S",4),("O",12)] `shouldBe` [("K",4),("O",14),("N",2),("S",4)]
+
+{-
   describe "extractElement" $ do
       it "H3" $ do extractElement "H3" 0 `shouldBe` (2,("H",3))
       it "H" $ do extractElement "H" 0 `shouldBe` (1,("H",1))
@@ -105,6 +97,7 @@ test = hspec $ do
       it "K4[ON(SO3)22" $ do extract "K4[ON(SO3)22" 0 ' ' `shouldBe` [(2,("K",4)),(3,("[",0)),(4,("O",1)),(5,("N",1)),(6,("(",0)),(7,("S",22)),(9,("O",66)),(10,(")",0)),(-2,("Mismatched parenthesis",0))]
       it "pie" $ do extract "pie" 0 ' ' `shouldBe` [(-3,("Not a valid molecule",0))]
       it "H" $ do extract "H" 0 ' ' `shouldBe` [(1,("H",1)),(-1,("Finished",0))]
+-}
   describe "Molecules" $ do
         assertParse "H" [("H",1)] "hydrogen"
         assertParse "O2" [("O",2)] "oxygen"
