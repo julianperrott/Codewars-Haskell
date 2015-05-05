@@ -1,3 +1,3 @@
-import Codewars.Mean
+import Codewars.LetterChange
 
 main=test
