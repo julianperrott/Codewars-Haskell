@@ -1,3 +1,3 @@
-import Codewars.LetterChange
+import Codewars.BaseConversion
 
 main=test
