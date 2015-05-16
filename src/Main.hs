@@ -1,3 +1,3 @@
-import Codewars.BaseConversion
+import Codewars.TenMinuteWalk
 
 main=test
