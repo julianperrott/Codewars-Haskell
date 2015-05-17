@@ -11,9 +11,4 @@ cabal-file: project.cabal
 version: 1
 extra-packages: ''
 ghc-args: []
-excluded-modules:
-- src/Codewars/BaseConversion.hs
-- src/Codewars/MoleculeToAtoms.hs
-- src/Codewars/Poker.hs
-- src/Codewars/ProcessTree.hs
-- src/Codewars/Sorted.hs
+excluded-modules: []
