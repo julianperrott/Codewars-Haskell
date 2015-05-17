@@ -11,7 +11,7 @@ validParentheses( "(())((()())())" ) => returns true
 All input strings will be nonempty, and will only consist of open parentheses '(' and/or closed parentheses ')'
 -}
 
-module Codewars.Parentheses where
+module Codewars.ValidParentheses where
 import Data.List
 
 validParentheses :: String -> Bool
