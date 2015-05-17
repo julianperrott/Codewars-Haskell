@@ -1,3 +1,30 @@
+{- http://www.codewars.com/kata/5465e8447b8c38c6b20007b9
+
+data Suit = Spades
+          | Hearts
+          | Diamonds
+          | Clubs
+          deriving (Eq,Show)
+
+data Rank = R2 | R3 | R4 | R5 | R6 | R7 | R8 | R9 | R10
+          | RJ | RQ | RK | RA
+          deriving (Eq,Ord,Enum,Show)
+
+data Card = Card { rank :: Rank
+                 , suit :: Suit
+                 } deriving (Eq,Show)
+
+newtype Hand = Hand { unHand :: [Card] } deriving (Eq,Show)
+Your task is to write betterHand function for Hand type, which returns (as its name suggests) better hand. If hands are equal, first hand should be returned One hand is better than other, if it beats other by poker rules. List of poker hands and their ranking can be found here. There are no jokers, and ace has highest ranking (NB: so called "steel wheel", A-2-3-4-5 flush and straight flush)
+
+From above definition it is clear that Hand can contain any number of cards. However, only non-empty lists of cards will be tested.
+
+Also you can assume that hands that are compared have equal number of cards.
+
+Please note that Show instance of Hand and other datatypes is NOT derived (example above uses deriving for simplicity). Show and Read instances of Hand is available, see tests for their use.
+
+-}
+
 module Codewars.Poker where
 import Test.Hspec
 import Text.Printf
@@ -63,7 +90,7 @@ instance Read Hand where
   readsPrec _ s = [(Hand $ map read $ words s,"")]
 
 
--- | Write function 
+-- | Write function
 --   betterHand :: Hand -> Hand -> Ordering
 betterHand :: Hand -> Hand -> Hand
 betterHand = error "Write me"

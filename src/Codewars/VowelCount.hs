@@ -1,3 +1,10 @@
+{-http://www.codewars.com/kata/54ff3102c1bad923760001f3
+
+Return the number (count) of vowels in the given string.
+
+We will consider a, e, i, o, and u as vowels for this Kata.
+-}
+
 module Codewars.VowelCount where
 import Test.Hspec
 import Test.QuickCheck
@@ -7,19 +14,19 @@ getCount :: String -> Int
 getCount = length . filter (\x -> x=='a' || x=='e' || x=='i' || x=='o' || x=='u')
 
 
---length . flip intersect "aeiou" 
+--length . flip intersect "aeiou"
 --length $ str `intersect` "aeiou"
 
---An anonymous function is a function without a name. It is a Lambda abstraction and might look like this: 
--- \x -> x + 1. 
+--An anonymous function is a function without a name. It is a Lambda abstraction and might look like this:
+-- \x -> x + 1.
 --(That backslash is Haskell's way of expressing a λ and is supposed to look like a Lambda.)
 --Prompt> (\x y -> x + y) 3 5
 --8 :: Integer
 
--- The intersect function takes the list intersection of two lists. For example, 
--- > [1,2,3,4] `intersect` [2,4,6,8] == [2,4] 
--- If the first list contains duplicates, so will the result. 
--- > [1,2,2,3,4] `intersect` [6,4,4,2] == [2,2,4] It is a special case of intersectBy, 
+-- The intersect function takes the list intersection of two lists. For example,
+-- > [1,2,3,4] `intersect` [2,4,6,8] == [2,4]
+-- If the first list contains duplicates, so will the result.
+-- > [1,2,2,3,4] `intersect` [6,4,4,2] == [2,2,4] It is a special case of intersectBy,
 
 
 -- flip :: (a -> b -> c) -> b -> a -> c
@@ -33,7 +40,7 @@ getCount = length . filter (\x -> x=='a' || x=='e' || x=='i' || x=='o' || x=='u'
 test = hspec $ do
   describe "getCount" $ do
     it "should work for some examples" $ do
-      getCount "ape"         `shouldBe` 2      
+      getCount "ape"         `shouldBe` 2
       getCount "banana"      `shouldBe` 3
       getCount "batman"      `shouldBe` 2
       getCount "abracadabra" `shouldBe` 5
