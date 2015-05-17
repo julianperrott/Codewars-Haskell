@@ -99,7 +99,7 @@ betterHand = error "Write me"
 
 
 
-main = let
+test = let
   sf1 = read "KD QD JD 10D 9D" :: Hand -- straight flush, highest = K
   sf2 = read "AC KC QC JC 10C" :: Hand -- straight flush, highest = A
   nothing = read "2C 4H 6D 8S 10C" :: Hand -- high card
