@@ -1,3 +1,3 @@
-import Codewars.TenMinuteWalk
+import Codewars.DidIFinishMySudoku
 
 main=test
