@@ -1,3 +1,3 @@
-import Codewars.DidIFinishMySudoku
+import Codewars.Rectangle
 
 main=test
