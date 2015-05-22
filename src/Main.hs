@@ -1,3 +1,3 @@
-import Codewars.Rectangle
+import Codewars.Feynman
 
 main=test
