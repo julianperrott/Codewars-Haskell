@@ -1,3 +1,3 @@
-import Codewars.Feynman
+import Codewars.EscapeTheMines
 
 main=test
