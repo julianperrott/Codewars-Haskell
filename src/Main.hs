@@ -1,4 +1,4 @@
-import Codewars.Move2048
+import CodeEval.StringPerms
 
 main=test
 

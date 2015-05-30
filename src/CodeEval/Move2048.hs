@@ -35,7 +35,7 @@ The grid is square with the length of a side from 4 to 10.
 The value of the tiles is equal to the power of number 2 and varies from 2^1 to 2^10
 
 -}
-module Codewars.Move2048 where
+module CodeEval.Move2048 where
 
 import Test.Hspec
 import Data.List
