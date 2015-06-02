@@ -1,4 +1,4 @@
-import CodeEval.StringPerms
+import CodeEval.HiddenDigits
 
 main=test
 
