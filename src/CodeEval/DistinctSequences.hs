@@ -1,5 +1,6 @@
 module CodeEval.DistinctSequences where
 import Test.Hspec
+import Data.List.Split
 
 {- https://www.codeeval.com/open_challenges/69/
 
@@ -24,29 +25,29 @@ Print out the number of distinct occurrences of Z in X as a subsequence E.g.
 3
 -}
 
-sequenceCount :: String -> String -> [[Int]]
-sequenceCount line sequence = seq 0 []
-  where 
-    seq :: Int -> [Int] -> [[Int]]
-    seq linePos path = found ++ notFound
+
+sequenceCount :: String -> String
+sequenceCount line = show $ length $ subsequences (params!!0) (params!!1)
+    where params = splitOn [','] line
+
+subsequences :: String -> String -> [[Int]]
+subsequences sequence sub = seq 0 []
+  where
+    seq position path = found ++ notFound
       where
-        newPath = path++[linePos]
-        charsToFind :: Int
-        charsToFind = length sequence - length path
-        foundAtPosition :: [[Int]]
+        newPath = path++[position]
+        charsToFind = length sub - length path
         foundAtPosition
             | charsToFind == 1 = [newPath]
-            | otherwise = seq (linePos+1) newPath
-        found :: [[Int]]
+            | otherwise = seq (position+1) newPath
         found
-            | line!!linePos == sequence!!(length path) = foundAtPosition
+            | sequence!!position == sub!!(length path) = foundAtPosition
             | otherwise = []
-        notFound :: [[Int]]
         notFound 
-            | charsToFind < length line - linePos = seq (linePos+1) path
+            | charsToFind < length sequence - position = seq (position+1) path
             | otherwise = []
 
 test = hspec $ do
   describe "various" $ do
-    it "bag" $ do (length $ sequenceCount "babgbag" "bag") `shouldBe` 5
-    it "rabbit" $ do (length $ sequenceCount "rabbbit" "rabbit") `shouldBe` 3
+    it "bag" $ do sequenceCount "babgbag,bag" `shouldBe` "5"
+    it "rabbit" $ do sequenceCount "rabbbit,rabbit" `shouldBe` "3"
