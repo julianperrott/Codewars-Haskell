@@ -1,4 +1,4 @@
-import CodeEval.HiddenDigits
+import CodeEval.DistinctSequences
 
 main=test
 
