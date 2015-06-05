@@ -1,4 +1,4 @@
-import CodeEval.DistinctSequences
+import CodeEval.Frequency
 
 main=test
 
