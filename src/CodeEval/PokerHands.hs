@@ -1,0 +1,113 @@
+module CodeEval.PokerHands where
+    
+{-https://www.codeeval.com/open_challenges/86/
+POKER HANDS CHALLENGE DESCRIPTION:
+
+In the card game poker, a hand consists of five cards and are ranked, from lowest to highest, in the following way:
+
+High Card: Highest value card.
+One Pair: Two cards of the same value.
+Two Pairs: Two different pairs.
+Three of a Kind: Three cards of the same value.
+Straight: All cards are consecutive values.
+Flush: All cards of the same suit.
+Full House: Three of a kind and a pair.
+Four of a Kind: Four cards of the same value.
+Straight Flush: All cards are consecutive values of same suit.
+Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
+The cards are valued in the order:
+
+2, 3, 4, 5, 6, 7, 8, 9, Ten, Jack, Queen, King, Ace.
+If two players have the same ranked hands then the rank made up of the highest value wins; for example, a pair of eights beats a pair of fives. But if two ranks tie, for example, 
+both players have a pair of queens, then highest cards in each hand are compared; if the highest cards tie then the next highest cards are compared, and so on.
+
+INPUT SAMPLE:
+
+Your program should accept as its first argument a path to a filename. Each line in this file contains 2 hands (left and right). Cards and hands are separated by space. E.g.
+
+6D 7H AH 7S QC 6H 2D TD JD AS
+JH 5D 7H TC JS JD JC TS 5S 7S
+2H 8C AD TH 6H QD KD 9H 6S 6C
+JS JH 4H 2C 9H QH KC 9D 4D 3S
+TC 7H KH 4H JC 7D 9S 3H QS 7S
+OUTPUT SAMPLE:
+
+Print out the name of the winning hand or "none" in case the hands are equal. E.g.
+
+left
+none
+right
+left
+right
+-}
+
+import Test.Hspec
+
+import Data.List
+import Data.List.Split
+import Data.Char
+
+pokerHands:: String -> String
+pokerHands s = s
+
+toNum :: Char -> Int
+toNum c
+  | c == 'A' = 14
+  | c == 'K' = 13
+  | c == 'Q' = 12
+  | c == 'J' = 11
+  | c == 'T' = 10
+  | otherwise = digitToInt c
+
+handScore:: String -> [Int] -- "6D 7H AH 7S QC" -> 
+handScore hand 
+  | head threeOfAKind > 0 = threeOfAKind
+  | head twoPair > 0 = twoPair
+  | head onePair > 0 = onePair
+  | otherwise = [1] ++ cards
+  where
+    cards = reverse $ sort $ map (toNum . head) $ splitOn " " hand -- [14,12,7,7,6]
+    suits = map last $ splitOn " " hand -- "DHHSC"
+    cardFrequency = filter ((1<).fst) $ map (\l -> (length l, head l)) (group (reverse $ sort cards)) -- [(2,7)]
+    cardFrequencyHead = snd $ head cardFrequency -- [(2,7)]
+    cardFrequencyNext = snd $ cardFrequency!!1 -- [(2,7)]
+    onePair
+      | length cardFrequency == 0 = [0]
+      | otherwise = [2] ++ replicate 2 cardFrequencyHead ++ (filter (/=cardFrequencyHead) cards)
+    twoPair
+      | length cardFrequency < 2 = [0]
+      | otherwise = [3] ++ replicate 2 cardFrequencyHead ++ replicate 2 cardFrequencyNext ++ (filter (/=cardFrequencyNext)  $ filter (/=cardFrequencyHead) cards)
+    threeOfAKind
+      | (maximum $ map fst cardFrequency) /= 3 = [0]
+      | otherwise = [4] ++ replicate 3 cardFrequencyHead ++ (filter (/=cardFrequencyHead) cards)
+
+
+
+{- 
+1 High Card: Highest value card.
+2 One Pair: Two cards of the same value.
+3 Two Pairs: Two different pairs.
+4 Three of a Kind: Three cards of the same value.
+5 Straight: All cards are consecutive values.
+6 Flush: All cards of the same suit.
+7 Full House: Three of a kind and a pair.
+8 Four of a Kind: Four cards of the same value.
+9 Straight Flush: All cards are consecutive values of same suit.
+-}
+
+test = hspec $ do
+
+  describe "handScore" $ do
+      it "6D 7H AH 7S QC" $ do handScore "6D 7H AH 7S QC" `shouldBe` [2,7,7,14,12,6]
+      it "6D 7H AH 7S AC" $ do handScore "6D 7H AH 7S AC" `shouldBe` [3,14,14,7,7,6]
+      it "6D 7H AH 7S 7C" $ do handScore "6D 7H AH 7S 7C" `shouldBe` [4,7,7,7,14,6]
+{-
+  describe "pokerHands" $ do
+    it "6D 7H AH 7S QC 6H 2D TD JD AS" $ do pokerHands "6D 7H AH 7S QC 6H 2D TD JD AS" `shouldBe` "left"
+    it "JH 5D 7H TC JS JD JC TS 5S 7S" $ do pokerHands "JH 5D 7H TC JS JD JC TS 5S 7S" `shouldBe` "none"
+    it "2H 8C AD TH 6H QD KD 9H 6S 6C" $ do pokerHands "2H 8C AD TH 6H QD KD 9H 6S 6C" `shouldBe` "right"
+    it "JS JH 4H 2C 9H QH KC 9D 4D 3S" $ do pokerHands "JS JH 4H 2C 9H QH KC 9D 4D 3S" `shouldBe` "left"
+    it "TC 7H KH 4H JC 7D 9S 3H QS 7S" $ do pokerHands "TC 7H KH 4H JC 7D 9S 3H QS 7S" `shouldBe` "right"
+-}
+
+

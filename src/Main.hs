@@ -1,4 +1,4 @@
-import CodeEval.Frequency
+import CodeEval.PokerHands
 
 main=test
 
