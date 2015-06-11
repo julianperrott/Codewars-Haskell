@@ -61,13 +61,14 @@ toNum c
 
 handScore:: String -> [Int] -- "6D 7H AH 7S QC" ->
 handScore hand
-  | head fourOfAKind > 0 = fourOfAKind
+  | head isStraightFlush > 0 = isStraightFlush
+  | head (nOfAKind 4 8) > 0 = nOfAKind 4 8
   | head fullHouse > 0 = fullHouse
   | head flush > 0 = flush
   | head straight > 0 = straight
-  | head threeOfAKind > 0 = threeOfAKind
+  | head (nOfAKind 3 4) > 0 = nOfAKind 3 4
   | head twoPair > 0 = twoPair
-  | head onePair > 0 = onePair
+  | head (nOfAKind 2 2) > 0 = nOfAKind 2 2
   | otherwise = [1] ++ cards
   where
     cards = reverse $ sort $ map (toNum . head) $ splitOn " " hand -- [14,12,7,7,6]
@@ -75,16 +76,13 @@ handScore hand
     cardFrequency = filter ((1<).fst) $ map (\l -> (length l, head l)) (group (reverse $ sort cards)) -- [(2,7)]
     cardFrequencyHead = snd $ head cardFrequency -- [(2,7)]
     cardFrequencyNext = snd $ cardFrequency!!1 -- [(2,7)]
-    onePair
+    nOfAKind n s
       | length cardFrequency == 0 = [0]
-      | otherwise = [2] ++ replicate 2 cardFrequencyHead ++ (filter (/=cardFrequencyHead) cards)
+      | (maximum $ map fst cardFrequency) /= n = [0]
+      | otherwise = [s] ++ replicate n cardFrequencyHead ++ (filter (/=cardFrequencyHead) cards)
     twoPair
       | length cardFrequency < 2 = [0]
       | otherwise = [3] ++ replicate 2 cardFrequencyHead ++ replicate 2 cardFrequencyNext ++ (filter (/=cardFrequencyNext)  $ filter (/=cardFrequencyHead) cards)
-    threeOfAKind
-      | length cardFrequency == 0 = [0]
-      | (maximum $ map fst cardFrequency) /= 3 = [0]
-      | otherwise = [4] ++ replicate 3 cardFrequencyHead ++ (filter (/=cardFrequencyHead) cards)
     straight
       | length cardFrequency > 0 = [0] -- no duplicates
       | (head cards)-4 == last cards = [5] ++ cards -- straight ace high
@@ -98,10 +96,9 @@ handScore hand
       | fst (cardFrequency!!0) == 3 = [7] ++ replicate 3 (snd (cardFrequency!!0)) ++ replicate 2 (snd (cardFrequency!!1))
       | fst (cardFrequency!!1) == 3 = [7] ++ replicate 3 (snd (cardFrequency!!1)) ++ replicate 2 (snd (cardFrequency!!0))
       | otherwise = [0]
-    fourOfAKind
-      | length cardFrequency == 0 = [0]
-      | (maximum $ map fst cardFrequency) /= 4 = [0]
-      | otherwise = [8] ++ replicate 4 cardFrequencyHead ++ (filter (/=cardFrequencyHead) cards)
+    isStraightFlush
+      | head flush > 0 && head straight >0 = [9]++cards
+      | otherwise = [0]
 
 
 
@@ -125,10 +122,11 @@ test = hspec $ do
       it "6D 7H AH 7S 7C" $ do handScore "6D 7H AH 7S 7C" `shouldBe` [4,7,7,7,14,6]
       it "4D 6H 5C 8C 7H" $ do handScore "4D 6H 5C 8C 7H" `shouldBe` [5,8,7,6,5,4]
       it "4D 3H 5C 2C AH" $ do handScore "4D 3H 5C 2C AH" `shouldBe` [5,5,4,3,2,1]
-      it "4D 3D 5D 2D AD" $ do handScore "4D 3D 5D 2D AD" `shouldBe` [6,14,5,4,3,2]
+      it "4D 3D 9D 2D AD" $ do handScore "4D 3D 9D 2D AD" `shouldBe` [6,14,9,4,3,2]
       it "4D 3H 3D 3D 4D" $ do handScore "4D 3H 3D 3D 4D" `shouldBe` [7,3,3,3,4,4]
       it "4D 3H 4D 3D 4D" $ do handScore "4D 3H 4D 3D 4D" `shouldBe` [7,4,4,4,3,3]
       it "4D 4H 4D 3D 4D" $ do handScore "4D 4H 4D 3D 4D" `shouldBe` [8,4,4,4,4,3]
+      it "AD KD QD JD TD" $ do handScore "AD KD QD JD TD" `shouldBe` [9,14,13,12,11,10]
 {-
   describe "pokerHands" $ do
     it "6D 7H AH 7S QC 6H 2D TD JD AS" $ do pokerHands "6D 7H AH 7S QC 6H 2D TD JD AS" `shouldBe` "left"
