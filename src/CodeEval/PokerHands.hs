@@ -59,8 +59,10 @@ toNum c
   | c == 'T' = 10
   | otherwise = digitToInt c
 
-handScore:: String -> [Int] -- "6D 7H AH 7S QC" -> 
-handScore hand 
+handScore:: String -> [Int] -- "6D 7H AH 7S QC" ->
+handScore hand
+  | head flush > 0 = flush
+  | head straight > 0 = straight
   | head threeOfAKind > 0 = threeOfAKind
   | head twoPair > 0 = twoPair
   | head onePair > 0 = onePair
@@ -78,8 +80,17 @@ handScore hand
       | length cardFrequency < 2 = [0]
       | otherwise = [3] ++ replicate 2 cardFrequencyHead ++ replicate 2 cardFrequencyNext ++ (filter (/=cardFrequencyNext)  $ filter (/=cardFrequencyHead) cards)
     threeOfAKind
+      | length cardFrequency == 0 = [0]
       | (maximum $ map fst cardFrequency) /= 3 = [0]
       | otherwise = [4] ++ replicate 3 cardFrequencyHead ++ (filter (/=cardFrequencyHead) cards)
+    straight
+      | length cardFrequency > 0 = [0] -- no duplicates
+      | (head cards)-4 == last cards = [5] ++ cards -- straight ace high
+      | head cards == 14 && cards!!1 == 5 = [5] ++ tail cards ++ [1] -- straight ace low
+      | otherwise = [0] 
+    flush
+      | (length $ group suits) > 1 = [0]
+      | otherwise = [6] ++ cards
 
 
 
@@ -101,6 +112,9 @@ test = hspec $ do
       it "6D 7H AH 7S QC" $ do handScore "6D 7H AH 7S QC" `shouldBe` [2,7,7,14,12,6]
       it "6D 7H AH 7S AC" $ do handScore "6D 7H AH 7S AC" `shouldBe` [3,14,14,7,7,6]
       it "6D 7H AH 7S 7C" $ do handScore "6D 7H AH 7S 7C" `shouldBe` [4,7,7,7,14,6]
+      it "4D 6H 5C 8C 7H" $ do handScore "4D 6H 5C 8C 7H" `shouldBe` [5,8,7,6,5,4]
+      it "4D 3H 5C 2C AH" $ do handScore "4D 3H 5C 2C AH" `shouldBe` [5,5,4,3,2,1]
+      it "4D 3D 5D 2D AD" $ do handScore "4D 3D 5D 2D AD" `shouldBe` [6,14,5,4,3,2]
 {-
   describe "pokerHands" $ do
     it "6D 7H AH 7S QC 6H 2D TD JD AS" $ do pokerHands "6D 7H AH 7S QC 6H 2D TD JD AS" `shouldBe` "left"
