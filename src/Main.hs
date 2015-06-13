@@ -1,4 +1,4 @@
-import CodeEval.PokerHands
+import CodeEval.TableMin
 
 main=test
 

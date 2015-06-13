@@ -47,19 +47,7 @@ import Data.List
 import Data.List.Split
 import Data.Char
 
-pokerHands:: String -> String
-pokerHands s = s
-
-toNum :: Char -> Int
-toNum c
-  | c == 'A' = 14
-  | c == 'K' = 13
-  | c == 'Q' = 12
-  | c == 'J' = 11
-  | c == 'T' = 10
-  | otherwise = digitToInt c
-
-handScore:: String -> [Int] -- "6D 7H AH 7S QC" ->
+handScore:: String -> [Int] -- "6D 7H AH 7S QC" -> [n]++[7,7,14,12,6]
 handScore hand
   | head isStraightFlush > 0 = isStraightFlush
   | head (nOfAKind 4 8) > 0 = nOfAKind 4 8
@@ -87,7 +75,7 @@ handScore hand
       | length cardFrequency > 0 = [0] -- no duplicates
       | (head cards)-4 == last cards = [5] ++ cards -- straight ace high
       | head cards == 14 && cards!!1 == 5 = [5] ++ tail cards ++ [1] -- straight ace low
-      | otherwise = [0] 
+      | otherwise = [0]
     flush
       | (length $ group suits) > 1 = [0]
       | otherwise = [6] ++ cards
@@ -99,7 +87,28 @@ handScore hand
     isStraightFlush
       | head flush > 0 && head straight >0 = [9]++cards
       | otherwise = [0]
+    toNum c
+      | c == 'A' = 14
+      | c == 'K' = 13
+      | c == 'Q' = 12
+      | c == 'J' = 11
+      | c == 'T' = 10
+      | otherwise = digitToInt c
 
+
+
+pokerHands:: String -> String
+pokerHands hands = score [handScore $ take 14 hands,handScore $ drop 15 hands]
+  where
+    score:: [[Int]] -> String
+    score [[],[]] = "none"
+    score hands
+      | head left > head right = "left"
+      | head left < head right = "right"
+      | otherwise = score [tail left,tail right]
+      where
+        left = hands!!0
+        right = hands!!1
 
 
 {- 
@@ -127,13 +136,12 @@ test = hspec $ do
       it "4D 3H 4D 3D 4D" $ do handScore "4D 3H 4D 3D 4D" `shouldBe` [7,4,4,4,3,3]
       it "4D 4H 4D 3D 4D" $ do handScore "4D 4H 4D 3D 4D" `shouldBe` [8,4,4,4,4,3]
       it "AD KD QD JD TD" $ do handScore "AD KD QD JD TD" `shouldBe` [9,14,13,12,11,10]
-{-
   describe "pokerHands" $ do
     it "6D 7H AH 7S QC 6H 2D TD JD AS" $ do pokerHands "6D 7H AH 7S QC 6H 2D TD JD AS" `shouldBe` "left"
     it "JH 5D 7H TC JS JD JC TS 5S 7S" $ do pokerHands "JH 5D 7H TC JS JD JC TS 5S 7S" `shouldBe` "none"
     it "2H 8C AD TH 6H QD KD 9H 6S 6C" $ do pokerHands "2H 8C AD TH 6H QD KD 9H 6S 6C" `shouldBe` "right"
     it "JS JH 4H 2C 9H QH KC 9D 4D 3S" $ do pokerHands "JS JH 4H 2C 9H QH KC 9D 4D 3S" `shouldBe` "left"
     it "TC 7H KH 4H JC 7D 9S 3H QS 7S" $ do pokerHands "TC 7H KH 4H JC 7D 9S 3H QS 7S" `shouldBe` "right"
--}
+
 
 
