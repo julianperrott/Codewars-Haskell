@@ -1,4 +1,4 @@
-import CodeEval.TableMin
+import CodeEval.PalindromeRange
 
 main=test
 
