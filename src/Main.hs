@@ -1,4 +1,4 @@
-import CodeEval.PalindromeRange
+import CodeEval.WordSearch
 
 main=test
 
