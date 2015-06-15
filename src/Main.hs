@@ -1,4 +1,4 @@
-import CodeEval.WordSearch
+import CodeEval.RepeatedSubstring
 
 main=test
 
