@@ -1,4 +1,4 @@
-import CodeEval.RepeatedSubstring
+import CodeEval.LessMoney
 
 main=test
 
