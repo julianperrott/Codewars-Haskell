@@ -100,7 +100,7 @@ test = hspec $ do
     it "Unknown 7" $ do testProcessCriminal 8 'E' (-1) 7 3 `shouldBe` "00000000"
 
   describe "processBitForMove" $ do
-    it "E 1 4" $ do testProcessBitForMove 8 'E' 1 4 `shouldBe` "00000100"
+    it "E 1 4" $ do testProcessBitForMove 8 'E' 1 4 `shouldBe` "00000010"
 
 {-
   describe "getElementId" $ do
