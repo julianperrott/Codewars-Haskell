@@ -37,7 +37,7 @@ The number of current denominations is in range from 1 to 100.
 module CodeEval.LessMoney where
 
 import Test.Hspec
-
+import Control.Monad
 import Control.Monad.ST
 import Data.Array.ST
 import Data.Foldable
@@ -68,15 +68,26 @@ processBitForMove move criminalId j newCrimBits = when (shouldSetBit move crimin
 
 
 --public static void processCriminal(string move, int criminalId, int j, int N, bool[] newCrimBits)
-processCriminal move criminalId j arr n
+processCriminal2 move criminalId j arr n
     | criminalId /= -1 = processBitForMove move criminalId j arr
     | otherwise = last $ map (\k -> processBitForMove move k j arr) [0..(n-1)]
+
+-- public static void processCriminal(string move, int criminalId, int j, bool[] newCrimBits, int N)
+processCriminal move criminalId j arr n k
+    | criminalId /= -1 = do
+        processBitForMove move criminalId j arr
+        return 0
+    | k == n = do return 0
+    | otherwise = do
+        processBitForMove move k j arr
+        z <- processCriminal move (-1) j arr n (k+1)
+        return 0
 
 
 testProcessCriminal::Int->Char->Int->Int->Int->String
 testProcessCriminal size move criminalId j n = runST $ do
     arr <- newArray (0,size-1) False :: ST s (STArray s Int Bool)
-    processCriminal move criminalId j arr n
+    processCriminal move criminalId j arr n 0
     newXs <- getElems arr
     return (map (\x-> if x then '1' else '0') newXs)
 
@@ -98,6 +109,7 @@ test = hspec $ do
     it "Unknown 5" $ do testProcessCriminal 8 'E' (-1) 5 3 `shouldBe` "00000001"
     it "Unknown 6" $ do testProcessCriminal 8 'E' (-1) 6 3 `shouldBe` "00000001"
     it "Unknown 7" $ do testProcessCriminal 8 'E' (-1) 7 3 `shouldBe` "00000000"
+    it "Known 1" $ do testProcessCriminal 8 'E' 1 4 4 `shouldBe` "00000010"
 
   describe "processBitForMove" $ do
     it "E 1 4" $ do testProcessBitForMove 8 'E' 1 4 `shouldBe` "00000010"
