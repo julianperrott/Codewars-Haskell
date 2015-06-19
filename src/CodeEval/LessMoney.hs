@@ -64,10 +64,30 @@ getElementId move criminalId j
   | otherwise = j - (1 <<. criminalId)
 
 -- private static void ProcessBitForMove(string move, int criminalId, bool[] newCrimBits, int j)
-processBitForMove move criminalId newCrimBits j = when (shouldSetBit move criminalId j) $ do writeArray newCrimBits (getElementId move criminalId j) True
+processBitForMove move criminalId j newCrimBits = when (shouldSetBit move criminalId j) $ do writeArray newCrimBits (getElementId move criminalId j) True
 
+
+
+
+
+
+
+
+
+
+
+
+
+testProcessBitForMove size move criminalId j = runST $ do
+    arr <- newArray (0,size) False :: ST s (STArray s Int Bool)
+    processBitForMove move criminalId j arr
+    newXs <- getElems arr
+    return newXs
 
 test = hspec $ do
+  describe "processBitForMove" $ do
+    it "E 1 4" $ do testProcessBitForMove 16 'E' 1 4 `shouldBe` [False,False,False,False,False,False,True,False,False,False,False,False,False,False,False,False,False]
+
   describe "getElementId" $ do
     it "E 2 2" $ do getElementId 'E' 2 2 `shouldBe` 2+4
     it "E 3 3" $ do getElementId 'E' 3 3 `shouldBe` 3+8
