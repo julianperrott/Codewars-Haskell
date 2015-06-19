@@ -35,34 +35,64 @@ The number of current denominations is in range from 1 to 100.
 -}
 
 module CodeEval.LessMoney where
-import Data.List.Split
+
 import Test.Hspec
 
-toInt::String->Int
-toInt x = read x::Int
+import Control.Monad.ST
+import Data.Array.ST
+import Data.Foldable
+import Control.Monad
+import Data.Bits
 
-lessMoneyMoreProblems:: String -> Int
-lessMoneyMoreProblems line = lessMoney d2 count c
+(>>.):: Int -> Int -> Int
+(>>.) = shiftR
+
+(<<.):: Int -> Int -> Int
+(<<.) = shiftL
+
+-- private static bool shouldSetBit(string move, int id, int j)
+shouldSetBit :: Char -> Int -> Int -> Bool
+shouldSetBit move criminalId j = a /= b
   where
-    args = splitOn "|" line
-    c = toInt . init $ args!!0
-    v = toInt $ tail . init $ args!!1
-    d = map toInt $ splitOn " "  $ tail (args!!2)
-    d2
-      | head d == 1 = tail d
-      | otherwise = d
-    count
-      | head d == 1 = 0
-      | otherwise = 1
-    lessMoney:: [Int] -> Int -> Int -> Int
-    lessMoney d count m
-      | m >= v = count
-      | (length d) > 0 && head d <= (m+1) = lessMoney (tail d) count ((m+) $ (c*) $ head d)
-      | otherwise = lessMoney d (count+1) ((m+) $ (c*) $ m+1) 
+    a = mod (j >>. criminalId) 2
+    b = if move == 'E' then 1 else 0
+
+-- private static int getElementId(string move, int criminalId, int j)
+getElementId :: Char -> Int -> Int -> Int
+getElementId move criminalId j
+  | move == 'E' = j + (1 <<. criminalId)
+  | otherwise = j - (1 <<. criminalId)
+
+-- private static void ProcessBitForMove(string move, int criminalId, bool[] newCrimBits, int j)
+processBitForMove move criminalId newCrimBits j = when (shouldSetBit move criminalId j) $ do writeArray newCrimBits (getElementId move criminalId j) True
+
 
 test = hspec $ do
-  describe "lessMoneyMoreProblems" $ do
-    it "1 | 3 | 1 2" $ do lessMoneyMoreProblems "1 | 3 | 1 2" `shouldBe` 0
-    it "1 | 6 | 1 2 5" $ do lessMoneyMoreProblems "1 | 6 | 1 2 5" `shouldBe` 1
-    it "2 | 3 | 3" $ do lessMoneyMoreProblems "2 | 3 | 3" `shouldBe` 1
-    it "1 | 100 | 1 5 10 25 50 100" $ do lessMoneyMoreProblems "1 | 100 | 1 5 10 25 50 100" `shouldBe` 3
+  describe "getElementId" $ do
+    it "E 2 2" $ do getElementId 'E' 2 2 `shouldBe` 2+4
+    it "E 3 3" $ do getElementId 'E' 3 3 `shouldBe` 3+8
+    it "E 4 4" $ do getElementId 'E' 4 4 `shouldBe` 4+16
+    it "L 2 200" $ do getElementId 'L' 2 200 `shouldBe` 200-4
+    it "L 3 200" $ do getElementId 'L' 3 200 `shouldBe` 200-8
+    it "L 4 200" $ do getElementId 'L' 4 200 `shouldBe` 200-16
+  describe "shouldSetBit" $ do
+    it "L 8 3" $ do shouldSetBit 'L' 8 3 `shouldBe` False
+    it "L 4 2" $ do shouldSetBit 'L' 4 2 `shouldBe` False
+    it "L 2 1" $ do shouldSetBit 'L' 2 1 `shouldBe` False
+    it "L 1 0" $ do shouldSetBit 'L' 1 0 `shouldBe` False
+    it "L 16 65536" $ do shouldSetBit 'L' 16 65536 `shouldBe` True
+    it "L 8 256" $ do shouldSetBit 'L' 8 256 `shouldBe` True
+    it "L 4 16" $ do shouldSetBit 'L' 4 16 `shouldBe` True
+    it "L 2 4" $ do shouldSetBit 'L' 2 4 `shouldBe` True
+    it "L 0 1" $ do shouldSetBit 'L' 0 1 `shouldBe` True
+    it "L 4 48" $ do shouldSetBit 'L' 4 48 `shouldBe` True
+    it "E 8 512" $ do shouldSetBit 'E' 8 512 `shouldBe` True
+    it "E 4 32" $ do shouldSetBit 'E' 4 32 `shouldBe` True
+    it "E 2 8" $ do shouldSetBit 'E' 2 8 `shouldBe` True
+    it "E 1 4" $ do shouldSetBit 'E' 1 4 `shouldBe` True
+    it "E 8 256" $ do shouldSetBit 'E' 8 256 `shouldBe` False
+    it "E 4 16" $ do shouldSetBit 'E' 4 16 `shouldBe` False
+    it "E 2 4" $ do shouldSetBit 'E' 2 4 `shouldBe` False
+    it "E 1 2" $ do shouldSetBit 'E' 1 2 `shouldBe` False
+
+
