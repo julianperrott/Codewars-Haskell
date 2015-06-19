@@ -67,26 +67,40 @@ getElementId move criminalId j
 processBitForMove move criminalId j newCrimBits = when (shouldSetBit move criminalId j) $ do writeArray newCrimBits (getElementId move criminalId j) True
 
 
+--public static void processCriminal(string move, int criminalId, int j, int N, bool[] newCrimBits)
+processCriminal move criminalId j arr n
+    | criminalId /= -1 = processBitForMove move criminalId j arr
+    | otherwise = head $ map (\k -> processBitForMove move k j arr) [0..(n-1)]
 
 
+testProcessCriminal::Int->Char->Int->Int->Int->String
+testProcessCriminal size move criminalId j n = runST $ do
+    arr <- newArray (0,size) False :: ST s (STArray s Int Bool)
+    processCriminal move criminalId j arr n
+    newXs <- getElems arr
+    return (map (\x-> if x then '1' else '0') newXs)
 
 
-
-
-
-
-
-
-
+testProcessBitForMove::Int->Char->Int->Int->String
 testProcessBitForMove size move criminalId j = runST $ do
     arr <- newArray (0,size) False :: ST s (STArray s Int Bool)
     processBitForMove move criminalId j arr
     newXs <- getElems arr
-    return newXs
+    return (map (\x-> if x then '1' else '0') newXs)
 
 test = hspec $ do
+  describe "processCriminal" $ do
+    it "Unknown 0" $ do testProcessCriminal 8 'E' (-1) 0 3 `shouldBe` "01101000"
+    it "Unknown 1" $ do testProcessCriminal 8 'E' (-1) 1 3 `shouldBe` "00010100"
+    it "Unknown 2" $ do testProcessCriminal 8 'E' (-1) 2 3 `shouldBe` "00010010"
+    it "Unknown 3" $ do testProcessCriminal 8 'E' (-1) 3 3 `shouldBe` "00000001"
+    it "Unknown 4" $ do testProcessCriminal 8 'E' (-1) 4 3 `shouldBe` "00000110"
+    it "Unknown 5" $ do testProcessCriminal 8 'E' (-1) 5 3 `shouldBe` "00000001"
+    it "Unknown 6" $ do testProcessCriminal 8 'E' (-1) 6 3 `shouldBe` "00000001"
+    it "Unknown 7" $ do testProcessCriminal 8 'E' (-1) 7 3 `shouldBe` "00000000"
+
   describe "processBitForMove" $ do
-    it "E 1 4" $ do testProcessBitForMove 16 'E' 1 4 `shouldBe` [False,False,False,False,False,False,True,False,False,False,False,False,False,False,False,False,False]
+    it "E 1 4" $ do testProcessBitForMove 8 'E' 1 4 `shouldBe` "000000100"
 
   describe "getElementId" $ do
     it "E 2 2" $ do getElementId 'E' 2 2 `shouldBe` 2+4
