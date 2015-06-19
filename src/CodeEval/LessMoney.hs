@@ -70,12 +70,12 @@ processBitForMove move criminalId j newCrimBits = when (shouldSetBit move crimin
 --public static void processCriminal(string move, int criminalId, int j, int N, bool[] newCrimBits)
 processCriminal move criminalId j arr n
     | criminalId /= -1 = processBitForMove move criminalId j arr
-    | otherwise = head $ map (\k -> processBitForMove move k j arr) [0..(n-1)]
+    | otherwise = last $ map (\k -> processBitForMove move k j arr) [0..(n-1)]
 
 
 testProcessCriminal::Int->Char->Int->Int->Int->String
 testProcessCriminal size move criminalId j n = runST $ do
-    arr <- newArray (0,size) False :: ST s (STArray s Int Bool)
+    arr <- newArray (0,size-1) False :: ST s (STArray s Int Bool)
     processCriminal move criminalId j arr n
     newXs <- getElems arr
     return (map (\x-> if x then '1' else '0') newXs)
@@ -83,7 +83,7 @@ testProcessCriminal size move criminalId j n = runST $ do
 
 testProcessBitForMove::Int->Char->Int->Int->String
 testProcessBitForMove size move criminalId j = runST $ do
-    arr <- newArray (0,size) False :: ST s (STArray s Int Bool)
+    arr <- newArray (0,size-1) False :: ST s (STArray s Int Bool)
     processBitForMove move criminalId j arr
     newXs <- getElems arr
     return (map (\x-> if x then '1' else '0') newXs)
@@ -100,8 +100,9 @@ test = hspec $ do
     it "Unknown 7" $ do testProcessCriminal 8 'E' (-1) 7 3 `shouldBe` "00000000"
 
   describe "processBitForMove" $ do
-    it "E 1 4" $ do testProcessBitForMove 8 'E' 1 4 `shouldBe` "000000100"
+    it "E 1 4" $ do testProcessBitForMove 8 'E' 1 4 `shouldBe` "00000100"
 
+{-
   describe "getElementId" $ do
     it "E 2 2" $ do getElementId 'E' 2 2 `shouldBe` 2+4
     it "E 3 3" $ do getElementId 'E' 3 3 `shouldBe` 3+8
@@ -128,5 +129,6 @@ test = hspec $ do
     it "E 4 16" $ do shouldSetBit 'E' 4 16 `shouldBe` False
     it "E 2 4" $ do shouldSetBit 'E' 2 4 `shouldBe` False
     it "E 1 2" $ do shouldSetBit 'E' 1 2 `shouldBe` False
+-}
 
 
