@@ -1,4 +1,4 @@
-import CodeEval.LessMoney
+import CodeEval.PlayWithDna
 
 main=test
 
