@@ -1,4 +1,4 @@
-import CodeEval.PlayWithDna
+import CodeEval.TextToNumber
 
 main=test
 
