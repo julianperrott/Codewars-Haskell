@@ -1,4 +1,4 @@
-import CodeEval.TextToNumber
+import CodeEval.StringList
 
 main=test
 
