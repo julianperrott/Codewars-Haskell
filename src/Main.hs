@@ -1,4 +1,4 @@
-import CodeEval.StringList
+import CodeEval.MineSweeper
 
 main=test
 
