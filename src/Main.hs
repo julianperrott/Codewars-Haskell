@@ -1,4 +1,4 @@
-import CodeEval.MineSweeper
+import CodeEval.Decryption
 
 main=test
 
