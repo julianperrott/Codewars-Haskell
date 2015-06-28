@@ -1,4 +1,4 @@
-import CodeEval.Decryption
+import CodeEval.AsciiDecryption
 
 main=test
 
