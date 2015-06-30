@@ -79,13 +79,11 @@ countZeros line = cntZero 0 line
       | otherwise = n
 
 uglyNumbers::String->Int
-uglyNumbers line = (3^zc) * uglyCount
+uglyNumbers line
+  | length line == zc = 3^(zc-1)
+  | otherwise = (3^zc) * (sum $ map isUgly $ map parseSum $ makeSums (drop zc line) [""])
   where
     zc = countZeros line
-    uglyCount
-        | length line == zc = (zc-1)
-        | otherwise = sum $ map isUgly $ map parseSum $ makeSums (drop zc line) [""]
-
 
 test = hspec $ do
   describe "uglyNumbers" $ do
