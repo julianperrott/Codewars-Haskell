@@ -93,4 +93,25 @@ test = hspec $ do
     it "12345" $ do uglyNumbers "12345"  `shouldBe` 64
     it "045" $ do uglyNumbers "045"  `shouldBe` 6
     it "0000000000277" $ do uglyNumbers "0000000000277"  `shouldBe` 413343
+    it "08" $ do uglyNumbers "08"  `shouldBe` 3
+    it "64920" $ do uglyNumbers "64920"  `shouldBe` 58
+    it "95" $ do uglyNumbers "95"  `shouldBe` 3
+    it "81080" $ do uglyNumbers "81080"  `shouldBe` 39 -- 53
+    it "779936487" $ do uglyNumbers "779936487"  `shouldBe` 5087
+    it "354038" $ do uglyNumbers "354038"  `shouldBe` 175 --177
+    it "13" $ do uglyNumbers "13"  `shouldBe` 2
+    it "1426" $ do uglyNumbers "1426"  `shouldBe` 18
+    it "1316" $ do uglyNumbers "1316"  `shouldBe` 22
+    it "0" $ do uglyNumbers "0"  `shouldBe` 1
+    it "8509528845" $ do uglyNumbers "8509528845"  `shouldBe` 15401 --15391
+    it "9" $ do uglyNumbers "9"  `shouldBe` 1
+    it "1" $ do uglyNumbers "1"  `shouldBe` 0
+    it "645558908" $ do uglyNumbers "645558908"  `shouldBe` 5029 --5079
+    it "15075" $ do uglyNumbers "15075"  `shouldBe` 65
+    it "247761" $ do uglyNumbers "247761"  `shouldBe` 181
+    it "965" $ do uglyNumbers "965"  `shouldBe` 8
+    it "0000000000277" $ do uglyNumbers "0000000000277"  `shouldBe` 413343
+    it "3050775" $ do uglyNumbers "3050775"  `shouldBe` 579 --586
+    it "011" $ do uglyNumbers "011"  `shouldBe` 6
+
 

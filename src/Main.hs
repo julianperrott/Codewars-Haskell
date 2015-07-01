@@ -1,4 +1,4 @@
-import CodeEval.UglyNumbers2
+import CodeEval.StringSub
 
 main=test
 
