@@ -1,4 +1,4 @@
-import CodeEval.StringSub
+import CodeEval.CrackingEggs
 
 main=test
 
