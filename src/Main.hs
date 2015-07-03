@@ -1,4 +1,4 @@
-import CodeEval.CrackingEggs
+import CodeEval.DigitStatistics
 
 main=test
 
