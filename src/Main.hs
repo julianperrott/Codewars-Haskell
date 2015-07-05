@@ -1,4 +1,4 @@
-import CodeEval.DigitStatistics
+import CodeEval.AlphabetBlocks
 
 main=test
 
