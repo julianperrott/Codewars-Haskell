@@ -1,4 +1,4 @@
-import CodeEval.ClimbingStairs
+import CodeEval.Skyscrapers
 
 main=test
 
