@@ -1,4 +1,4 @@
-import CodeEval.Skyscrapers
+import CodeEval.FollowingInteger
 
 main=test
 
