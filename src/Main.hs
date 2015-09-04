@@ -1,4 +1,4 @@
-import CodeEval.FollowingInteger
+import CodeEval.StringSearching
 
 main=test
 
