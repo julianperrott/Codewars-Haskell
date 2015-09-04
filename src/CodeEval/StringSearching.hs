@@ -1,6 +1,6 @@
 module CodeEval.StringSearching where
 
-{-
+{- https://www.codeeval.com/open_challenges/28/
 STRING SEARCHING
 CHALLENGE DESCRIPTION:
 
