@@ -1,4 +1,4 @@
-import CodeEval.StringSearching
+import CodeEval.IPPackage
 
 main=test
 
