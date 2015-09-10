@@ -1,4 +1,4 @@
-import CodeEval.IPPackage
+import CodeEval.MessageDecoding
 
 main=test
 
