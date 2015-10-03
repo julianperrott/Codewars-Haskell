@@ -1,4 +1,4 @@
-import CodeEval.LakesNotCakes
+import CodeEval.MinimumPathSum
 
 main=test
 
