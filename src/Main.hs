@@ -1,4 +1,4 @@
-import CodeEval.TooUnique
+import CodeEval.DistinctTriangles
 
 main=test
 
