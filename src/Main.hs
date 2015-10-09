@@ -1,4 +1,4 @@
-import CodeEval.MinimumPathSum
+import CodeEval.TooUnique
 
 main=test
 
