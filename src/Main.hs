@@ -1,4 +1,4 @@
-import CodeEval.DistinctTriangles
+import CodeEval.SeatYourTeamMembers
 
 main=test
 
