@@ -1,4 +1,4 @@
-import CodeEval.CommutingEngineer
+import CodeEval.GridWalk
 
 main=test
 
