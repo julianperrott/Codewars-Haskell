@@ -1,4 +1,4 @@
-import CodeEval.GridWalk
+import CodeEval.PackageProblem
 
 main=test
 
