@@ -1,4 +1,4 @@
-import CodeEval.LongestPath
+import CodeEval.TypeAhead
 
 main=test
 
