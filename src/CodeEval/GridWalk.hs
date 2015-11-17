@@ -38,7 +38,7 @@ digsum x = f 0 (abs x)
     f a 0 = a
     f a n = f (a+r) q
       where
-	      (q,r) = n `divMod` 10
+              (q,r) = n `divMod` 10
 
 isNotVisited::Map String Int->(Int,Int)->Bool
 isNotVisited visited x = notMember (toKey x) visited

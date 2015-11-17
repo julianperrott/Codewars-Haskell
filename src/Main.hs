@@ -1,4 +1,4 @@
-import CodeEval.PackageProblem
+import CodeEval.LongestPath
 
 main=test
 
