@@ -1,6 +1,3 @@
-import CodeEval.TypeAhead
+import CodeEval.StraightLines
 
 main=test
-
-
-
